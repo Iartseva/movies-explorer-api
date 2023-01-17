@@ -6,28 +6,29 @@ const {
   ValidationError,
   ConflictError,
 } = require('../errors/allErrors');
-const { resStatusCreate } = require('../utils/constants');
+const {
+  JWT_SECRET_DEV,
+  resStatusCreate,
+  messageLogout,
+  messageConflictError,
+  messageValidationError,
+  messageNotFoundError,
+} = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 function findUser(res, next, userId) {
   User.findById(userId)
-    .orFail(new NotFound('Пользователь не найден'))
+    .orFail(new NotFound(messageNotFoundError))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new ValidationError('Передан невалидный ID'));
+        next(new ValidationError(messageValidationError));
       } else {
         next(err);
       }
     });
 }
-
-/* module.exports.getAllUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(next);
-}; */
 
 module.exports.getUserInfo = (req, res, next) => {
   findUser(res, next, req.user._id); // берем пользователя из окружения
@@ -42,7 +43,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .orFail(() => {
-      throw new NotFound('Пользователь не найден');
+      throw new NotFound(messageNotFoundError);
     })
     .then((user) => res.send({
       name: user.name,
@@ -51,7 +52,9 @@ module.exports.updateUserInfo = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new ValidationError('Указаны некорректные данные!'));
+        next(new ValidationError(messageValidationError));
+      } else if (err.code === 11000) {
+        next(new ConflictError(messageConflictError));
       } else {
         next(err);
       }
@@ -73,9 +76,9 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Указаны некорректные данные!'));
+        next(new ValidationError(messageValidationError));
       } else if (err.code === 11000) {
-        next(new ConflictError('Указанный e-mail уже существует в базе'));
+        next(new ConflictError(messageConflictError));
       } else {
         next(err);
       }
@@ -87,7 +90,7 @@ module.exports.login = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV, { expiresIn: '7d' });
       return res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
@@ -98,7 +101,6 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.logout = (req, res, next) => {
-  res.clearCookie('jwt').send({ message: 'Вы вышли!' })
-    .catch(next);
+module.exports.logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: messageLogout });
 };
