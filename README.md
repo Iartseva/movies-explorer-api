@@ -6,6 +6,6 @@
 
 • IP 130.193.51.15
 
-• Домен https://api.lastproject.students.nomoredomains.club
+• Домен https://api.diploma.iartseva.nomoredomains.club
 
 • GitHub репозиторий https://github.com/Iartseva/movies-explorer-api
