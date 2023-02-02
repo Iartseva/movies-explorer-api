@@ -94,8 +94,8 @@ module.exports.login = (req, res, next) => {
       return res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-        sameSite: 'none',
-        secure: true,
+        sameSite: 'lax',
+        /* secure: true, */
       }).send({ token });
     })
     .catch(next);
