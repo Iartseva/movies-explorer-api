@@ -17,12 +17,11 @@ const app = express();
 const options = {
   origin: [
     'http://localhost:3000',
-    'https://localhost:3000',
     'http://diploma.iartseva.nomoredomains.club',
     'https://diploma.iartseva.nomoredomains.club',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization', 'Access-Control-Allow-Origin'],
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
 
