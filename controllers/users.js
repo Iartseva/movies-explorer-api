@@ -95,8 +95,7 @@ module.exports.login = (req, res, next) => {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: 'None',
-        Secure,
-        /* secure: true, */
+        secure: true,
       }).send({ token });
     })
     .catch(next);
