@@ -38,9 +38,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(setErrors);
 
-mongoose.connect(NODE_ENV === 'production' ? BASEADRESS : BASEADRESS_DEV, {
-  useNewUrlParser: true,
-})
+mongoose.connect(NODE_ENV === 'production' ? BASEADRESS : BASEADRESS_DEV)
   .then(app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
   }))
