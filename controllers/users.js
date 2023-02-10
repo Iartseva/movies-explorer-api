@@ -102,5 +102,8 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: messageLogout });
+  res.clearCookie('jwt', token, {
+    sameSite: 'None',
+    secure: true,
+  }).send({ message: messageLogout });
 };
