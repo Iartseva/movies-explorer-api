@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { UnauthorizedError } = require('../errors/allErrors');
+const { regexEmail } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,7 +17,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator(email) {
-        return validator.isEmail(email);
+       /*  return validator.isEmail(email); */
+       return regexEmail.test(email);
       },
       message: 'Введён некорректный email',
     },
