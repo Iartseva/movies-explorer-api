@@ -2,7 +2,6 @@ const BASEADRESS_DEV = 'mongodb://127.0.0.1/bitfilmsdb';
 const JWT_SECRET_DEV = 'dev-secret';
 
 const regex = /(http)?s?:\/\/(www\.)?[-a-zA-Z0-9:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+\-[\].$'*,;!~#?&//=]*)/;
-const regexEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 const resStatusCreate = 201;
 
 const messageLogout = 'Вы вышли!';
