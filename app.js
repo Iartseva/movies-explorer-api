@@ -19,6 +19,8 @@ const options = {
     'http://localhost:3000',
     'http://diploma.iartseva.nomoredomainsclub.ru',
     'https://diploma.iartseva.nomoredomainsclub.ru',
+    'https://lastproject.students.nomoredomains.club',
+
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
